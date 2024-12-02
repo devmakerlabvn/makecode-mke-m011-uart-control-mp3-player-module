@@ -1,5 +1,5 @@
 {
-    "name": "[MakeCode] MKE-S02 LDR Light Sensor",
+    "name": "[MakeCode] MKE-M11 UART Control MP3 Player Module",
     "description": "",
     "dependencies": {
         "core": "*",

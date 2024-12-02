@@ -1,26 +1,20 @@
-/**
- * Giá trị Analog của cảm biến
- */
-/**
- * Giá trị (%) của cảm biến
- */
-let dataPercent = 0
-let dataAnalog = 0
-// Bật cổng Serial
-serial.setBaudRate(BaudRate.BaudRate115200)
-// Xóa toàn bộ nội dung trên LCD (nếu có)
-lcd.clearScreen()
-// Cho hiển thị tiêu đề trước
-lcd.displayText("Light Detector", 1, 1)
-lcd.displayText("[LDR] " + lcd.displaySymbol(lcd.Symbols.sym02), 1, 2)
+// Đặt mức âm lượng là 30 (mức cao nhất)
+mp3Player.setVolume(30)
+// Đặt EQ là nhạc Jazz
+mp3Player.setEQ(mp3Player.EQ.Jazz)
+// Lấy thông tin hiện đang cài đặt trong bộ phát nhạc
+// Và gửi thông tin đó lên cổng UART
+serial.writeString(mp3Player.getInfo())
+serial.writeLine("...")
+// Dừng 3s
+basic.pause(3000)
+// Gửi thông tin dưới đây lên cổng UART
+serial.writeLine("Play file 1 until done")
+// Phát nhạc file 1 cho đến khi hết bài
+mp3Player.playFileUntilDone(1)
 basic.forever(function () {
-    // Đọc giá trị Analog của cảm biến và đổi ra thang (%)
-    dataAnalog = pins.analogReadPin(AnalogPin.P0)
-    dataPercent = Math.round(Math.map(dataAnalog, 0, 1023, 100, 0))
-    // Cho hiển thị giá trị (%) của cảm biến trên LCD
-    lcd.displayText("" + dataPercent + "%  ", 9, 2)
-    // Gửi giá trị (%) của cảm biến lên Serial
-    serial.writeLine("" + (dataPercent))
-    // Dừng 0.5s
-    basic.pause(500)
+    // Gửi thông tin dưới đây lên cổng UART
+    serial.writeLine("Play Next")
+    // Phát bài tiếp theo cho đến khi hết bài
+    mp3Player.playUntilDone(mp3Player.PlayWhat.Next)
 })
